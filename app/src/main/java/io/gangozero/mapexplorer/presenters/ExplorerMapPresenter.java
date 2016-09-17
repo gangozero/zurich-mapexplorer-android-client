@@ -6,13 +6,13 @@ import io.gangozero.mapexplorer.managers.KeyValueManager;
 import io.gangozero.mapexplorer.managers.LocationManager;
 import io.gangozero.mapexplorer.managers.NotificationManager;
 import io.gangozero.mapexplorer.managers.RestManager;
-import io.gangozero.mapexplorer.models.*;
+import io.gangozero.mapexplorer.models.OpenedZone;
+import io.gangozero.mapexplorer.models.Poi;
+import io.gangozero.mapexplorer.models.PostLocationBody;
 import io.gangozero.mapexplorer.utils.Utils;
 import io.gangozero.mapexplorer.views.ExplorerMapView;
-import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -135,10 +135,10 @@ public class ExplorerMapPresenter {
 //
 //						notificationManager.handleXp(response.xp_square + response.xp_poi);
 //
-//						return restManager.api().getAllMap(userId, userToken, userId);
+//						return restManager.api().getMap(userId, userToken, userId);
 //					}
 //				})
-		sub.add(restManager.api().getAllMap(userId, userToken, userId)
+		sub.add(restManager.api().getMap(userId, userToken, userId)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(Schedulers.io())
 				.subscribe(

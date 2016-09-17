@@ -42,7 +42,7 @@ public class RestManagerImpl implements RestManager {
 	public interface Api {
 
 		@GET("prod/map")
-		Observable<List<RestLocation>> getAllMap(
+		Observable<List<RestLocation>> getMap(
 				@Query("user_id") String userId,
 				@Query("token") String token,
 				@Query("id") String id
@@ -57,6 +57,12 @@ public class RestManagerImpl implements RestManager {
 				@Query("id") String id,
 				@Query("lat") double lat,
 				@Query("lon") double lon
+		);
+
+		@GET("prod/user/friends")
+		Observable<List<UserModel>> getFriends(
+				@Query("token") String token,
+				@Query("id") String id
 		);
 	}
 }

@@ -19,8 +19,8 @@ public class AppModule {
 		this.app = app;
 	}
 
-	@Provides @Singleton public LocationManager provideLocationManager() {
-		return new MockLocationManagerImpl();
+	@Provides @Singleton public LocationManager provideLocationManager(KeyValueManager keyValueManager) {
+		return new MockLocationManagerImpl(keyValueManager);
 	}
 
 	@Provides @Singleton public RestManager provideRestManager() {

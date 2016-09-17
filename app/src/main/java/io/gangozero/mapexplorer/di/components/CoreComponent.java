@@ -4,7 +4,10 @@ import dagger.Component;
 import io.gangozero.mapexplorer.activties.MainActivity;
 import io.gangozero.mapexplorer.broadcasts.CoreBroadcastReceiver;
 import io.gangozero.mapexplorer.di.modules.AppModule;
+import io.gangozero.mapexplorer.fragments.FriendsMapFragment;
+import io.gangozero.mapexplorer.fragments.MyMapFragment;
 import io.gangozero.mapexplorer.presenters.ExplorerMapPresenter;
+import io.gangozero.mapexplorer.presenters.FriendsMapPresenter;
 
 import javax.inject.Singleton;
 
@@ -19,4 +22,10 @@ public interface CoreComponent {
 	void inject(MainActivity mainActivity);
 
 	void inject(CoreBroadcastReceiver coreBroadcastReceiver);
+
+	void inject(MyMapFragment myMapFragment);
+
+	void inject(FriendsMapPresenter presenter);
+
+	void inject(FriendsMapFragment friendsMapFragment);
 }

@@ -15,6 +15,7 @@ public class OpenedZone {
 	private LatLng leftTop;
 	private LatLng rightTop;
 	private LatLng rightBottom;
+
 	private LatLng touchPoint;
 
 	public OpenedZone(LatLng touchPoint) {
@@ -22,7 +23,20 @@ public class OpenedZone {
 		setBoundaries();
 	}
 
-	public void addTo(PolygonOptions polygonOptions) {
+	public void addHoleTo(PolygonOptions polygonOptions) {
+		List<LatLng> bounds = buildBounds();
+		polygonOptions.addHole(bounds);
+	}
+
+	public void addPolygonTo(PolygonOptions polygonOptions, int color) {
+		List<LatLng> bounds = buildBounds();
+		polygonOptions.fillColor(color);
+		for (LatLng bound : bounds) {
+			polygonOptions.add(bound);
+		}
+	}
+
+	public List<LatLng> buildBounds() {
 		List<LatLng> bounds = new ArrayList<>();
 
 		double offset = 0.0000001d;
@@ -36,8 +50,7 @@ public class OpenedZone {
 		bounds.add(rightTopTmp);
 		bounds.add(rightBottomTmp);
 		bounds.add(leftBottomTmp);
-
-		polygonOptions.addHole(bounds);
+		return bounds;
 	}
 
 	public LatLng getTouchPoint() {
@@ -57,7 +70,7 @@ public class OpenedZone {
 		this.rightBottom = new LatLng(lat, lon + lonRation);
 	}
 
-	public boolean isEqual(OpenedZone zone){
+	public boolean isEqual(OpenedZone zone) {
 		return zone.leftBottom.equals(leftBottom);
 	}
 

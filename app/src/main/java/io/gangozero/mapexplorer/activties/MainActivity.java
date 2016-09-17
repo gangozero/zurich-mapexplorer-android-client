@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_map);
 
 		DIHelper.coreComponent().inject(this);
-		notificationManager.showMockMovementStart();
+		//notificationManager.showMockMovementStart();
 
 		if (savedInstanceState == null) {
 

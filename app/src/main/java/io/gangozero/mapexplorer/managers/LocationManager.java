@@ -8,6 +8,8 @@ import rx.Observable;
  */
 public interface LocationManager {
 
+	boolean isDefaultLoc();
+
 	LatLng getCurrentLocationAsync();
 
 	Observable<LatLng> getCurrentLocation();
@@ -17,13 +19,9 @@ public interface LocationManager {
 	 */
 	Observable<LatLng> getCurrentLocationObservable();
 
-	void startMockLocation0();
-
-	void startMockLocation1();
-
-	void startMockLocation2();
-
 	void enableLoc();
 
 	void disableManager();
+
+	void postExternalLocation(LatLng latLng);
 }

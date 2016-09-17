@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
  */
 public interface KeyValueManager {
 
+	String LAST_LOC = "latLoc";
 	String USER_ID = "userId";
 	String USER_TOKEN = "userToken";
 

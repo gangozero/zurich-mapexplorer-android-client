@@ -12,14 +12,19 @@ public class MockLocationManagerImpl implements LocationManager {
 
 	private PublishSubject<LatLng> locationSubject = PublishSubject.create();
 
-	private LatLng[] locations = new LatLng[]{
-			new LatLng(47.372649, 8.543755),
-			new LatLng(47.373019, 8.543765),
-			new LatLng(47.374068, 8.543722)
-	};
+	private LatLng DEFAULT_LOC = new LatLng(47.372649, 8.543755);
+	private LatLng currentLocation = DEFAULT_LOC;
+	private KeyValueManager keyValueManager;
 
-	private LatLng currentLocation = locations[0];
+	public MockLocationManagerImpl(KeyValueManager keyValueManager) {
+		this.keyValueManager = keyValueManager;
+		String lastLoc = keyValueManager.getString(KeyValueManager.LAST_LOC);
+		stringToLoc(lastLoc);
+	}
 
+	@Override public boolean isDefaultLoc() {
+		return DEFAULT_LOC.equals(currentLocation);
+	}
 
 	@Override public LatLng getCurrentLocationAsync() {
 		return currentLocation;
@@ -32,24 +37,12 @@ public class MockLocationManagerImpl implements LocationManager {
 		});
 	}
 
-	@Override public void startMockLocation0() {
-		currentLocation = locations[0];
-		updateLocationObservable();
-	}
-
 	private void updateLocationObservable() {
 		Log.i("pres", "updateLocationObservable");
+		if (currentLocation != null) {
+			keyValueManager.putString(KeyValueManager.LAST_LOC, stringToLatLng(currentLocation));
+		}
 		locationSubject.onNext(currentLocation);
-	}
-
-	@Override public void startMockLocation1() {
-		currentLocation = locations[1];
-		updateLocationObservable();
-	}
-
-	@Override public void startMockLocation2() {
-		currentLocation = locations[2];
-		updateLocationObservable();
 	}
 
 	@Override public void enableLoc() {
@@ -60,7 +53,26 @@ public class MockLocationManagerImpl implements LocationManager {
 
 	}
 
+	@Override public void postExternalLocation(LatLng latLng) {
+		currentLocation = latLng;
+		updateLocationObservable();
+	}
+
 	@Override public Observable<LatLng> getCurrentLocationObservable() {
 		return locationSubject.asObservable();
+	}
+
+	private void stringToLoc(String string) {
+		if (string == null) return;
+		String[] values = string.split("-");
+		double lat = Double.parseDouble(values[0]);
+		double lon = Double.parseDouble(values[1]);
+		currentLocation = new LatLng(lat, lon);
+	}
+
+	private String stringToLatLng(LatLng latLng) {
+		String lat = Double.toString(latLng.latitude);
+		String lon = Double.toString(latLng.longitude);
+		return lat + "-" + lon;
 	}
 }

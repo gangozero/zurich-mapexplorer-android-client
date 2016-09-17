@@ -15,7 +15,7 @@ public class MockRestManager{
 //public class MockRestManager implements RestManager {
 //	@Override public RestManagerImpl.Api api() {
 //		return new RestManagerImpl.Api() {
-//			@Override public Observable<List<RestLocation>> getAllMap(@Query("user_id") String userId,
+//			@Override public Observable<List<RestLocation>> getMap(@Query("user_id") String userId,
 //			                                                          @Query("token") String token,
 //			                                                          @Query("id") String id) {
 //				List<RestLocation> result = new ArrayList<>();

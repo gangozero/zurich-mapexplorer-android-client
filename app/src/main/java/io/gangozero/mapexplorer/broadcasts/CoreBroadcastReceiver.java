@@ -24,12 +24,12 @@ public class CoreBroadcastReceiver extends BroadcastReceiver {
 
 		DIHelper.coreComponent().inject(this);
 
-		if (actionId == ACTION_100) {
-			locationManager.startMockLocation0();
-		} else if (actionId == ACTION_101) {
-			locationManager.startMockLocation1();
-		} else if (actionId == ACTION_102) {
-			locationManager.startMockLocation2();
-		}
+//		if (actionId == ACTION_100) {
+//			locationManager.startMockLocation0();
+//		} else if (actionId == ACTION_101) {
+//			locationManager.startMockLocation1();
+//		} else if (actionId == ACTION_102) {
+//			locationManager.startMockLocation2();
+//		}
 	}
 }
