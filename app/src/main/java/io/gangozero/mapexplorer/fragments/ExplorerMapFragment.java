@@ -3,12 +3,16 @@ package io.gangozero.mapexplorer.fragments;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.PolygonOptions;
-import io.gangozero.mapexplorer.managers.MockLocationManagerImpl;
+import com.google.android.gms.maps.model.*;
+import io.gangozero.mapexplorer.R;
+import io.gangozero.mapexplorer.di.DIHelper;
 import io.gangozero.mapexplorer.models.OpenedZone;
 import io.gangozero.mapexplorer.presenters.ExplorerMapPresenter;
 import io.gangozero.mapexplorer.views.ExplorerMapView;
@@ -27,6 +31,8 @@ import java.util.List;
 public class ExplorerMapFragment extends BaseMapFragment implements ExplorerMapView {
 
 	private ExplorerMapPresenter presenter;
+	@BindView(R.id.text_status) TextView textStatus;
+	private Polygon currentPolygon;
 
 	public static ExplorerMapFragment create() {
 		return new ExplorerMapFragment();
@@ -36,38 +42,22 @@ public class ExplorerMapFragment extends BaseMapFragment implements ExplorerMapV
 		setRetainInstance(true);
 	}
 
+	@Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		View result = super.onCreateView(inflater, container, savedInstanceState);
+		ButterKnife.bind(this, result);
+		textStatus.setText(R.string.loading);
+		return result;
+	}
+
 	@Override public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		presenter = new ExplorerMapPresenter();
-		presenter.locationManager = new MockLocationManagerImpl();
+		DIHelper.coreComponent().inject(presenter);
 	}
 
 	@Override protected void onMapCreated() {
-
+		addDarkZone();
 		presenter.onViewCreated(this);
-		addUnexploredZone();
-
-//		polygonOptions.add(new LatLng(initLat, initLon));
-//		polygonOptions.add(new LatLng(initLat + 10, initLon));
-//		polygonOptions.add(new LatLng(initLat + 10, initLon + 10));
-//		polygonOptions.add(new LatLng(initLat, initLon + 10));
-//		polygonOptions.add(new LatLng(initLat, initLon));
-
-//		List<LatLng> hole = new ArrayList<>();
-
-//		hole.add(new LatLng(2, 2));
-//		hole.add(new LatLng(4, 2));
-//		hole.add(new LatLng(4, 4));
-//		hole.add(new LatLng(2, 4));
-//		hole.add(new LatLng(2, 2));
-//
-//		polygonOptions.addHole(hole);
-
-		//map.addPolygon(polygonOptions);
-//		CameraPosition.Builder builder = new CameraPosition.Builder();
-//		builder.zoom(16);
-		//builder.target(new LatLng(initLat, initLon));
-//		map.animateCamera(CameraUpdateFactory.newCameraPosition(builder.build()));
 	}
 
 	@Override public void showZones(List<OpenedZone> openedZones) {
@@ -75,7 +65,6 @@ public class ExplorerMapFragment extends BaseMapFragment implements ExplorerMapV
 		PolygonOptions polygonOptions = new PolygonOptions();
 
 		polygonOptions.fillColor(Color.BLACK);
-		//polygonOptions.strokeColor(Color.RED);
 		polygonOptions.add(new LatLng(43.29320031385282, 0.4833984375));
 		polygonOptions.add(new LatLng(56.51101750495214, -1.7578125));
 		polygonOptions.add(new LatLng(57.657157596582984, 25.0048828125));
@@ -88,11 +77,14 @@ public class ExplorerMapFragment extends BaseMapFragment implements ExplorerMapV
 			touchPoints.add(new CircleOptions().center(openedZone.getTouchPoint()).radius(1).fillColor(Color.BLUE));
 		}
 
-		map.addPolygon(polygonOptions);
+		addDarkZonePolygon(polygonOptions);
+
 		for (CircleOptions touchPoint : touchPoints) {
 			touchPoint.zIndex(15);
 			map.addCircle(touchPoint);
 		}
+
+		textStatus.setVisibility(View.GONE);
 	}
 
 	@Override public void showCurrentLocation(LatLng location) {
@@ -102,7 +94,21 @@ public class ExplorerMapFragment extends BaseMapFragment implements ExplorerMapV
 		map.animateCamera(CameraUpdateFactory.newCameraPosition(builder.build()));
 	}
 
-	private void addUnexploredZone() {
+	private void addDarkZone() {
+		PolygonOptions polygonOptions = new PolygonOptions();
 
+		polygonOptions.fillColor(Color.BLACK);
+		polygonOptions.add(new LatLng(43.29320031385282, 0.4833984375));
+		polygonOptions.add(new LatLng(56.51101750495214, -1.7578125));
+		polygonOptions.add(new LatLng(57.657157596582984, 25.0048828125));
+		polygonOptions.add(new LatLng(42.09822241118974, 27.8173828125));
+		polygonOptions.add(new LatLng(43.29320031385282, 0.4833984375));
+
+		addDarkZonePolygon(polygonOptions);
+	}
+
+	private void addDarkZonePolygon(PolygonOptions polygonOptions) {
+		if (currentPolygon != null) currentPolygon.remove();
+		currentPolygon = map.addPolygon(polygonOptions);
 	}
 }
