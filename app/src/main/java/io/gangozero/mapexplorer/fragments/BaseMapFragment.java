@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
-import com.mapbox.mapboxsdk.MapboxAccountManager;
 import io.gangozero.mapexplorer.R;
 
 //import com.mapbox.mapboxsdk.maps.MapView;
@@ -54,7 +53,7 @@ public abstract class BaseMapFragment extends Fragment {
 	}
 
 	@Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View result = inflater.inflate(R.layout.fragment_map, container, false);
+		View result = inflater.inflate(R.layout.fragment_my_map, container, false);
 		MapsInitializer.initialize(getContext());
 		mapView = (MapView) result.findViewById(R.id.map_view);
 		//mapView.setStyle("mapbox://styles/repa40x/cit68jtd100ah2xovmxedtq3y");

@@ -28,17 +28,17 @@ import java.util.List;
 /**
  * Created by eleven on 16/09/2016.
  */
-public class ExplorerMapFragment extends BaseMapFragment implements ExplorerMapView {
+public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 
 	private ExplorerMapPresenter presenter;
 	@BindView(R.id.text_status) TextView textStatus;
 	private Polygon currentPolygon;
 
-	public static ExplorerMapFragment create() {
-		return new ExplorerMapFragment();
+	public static MyMapFragment create() {
+		return new MyMapFragment();
 	}
 
-	public ExplorerMapFragment() {
+	public MyMapFragment() {
 		setRetainInstance(true);
 	}
 
