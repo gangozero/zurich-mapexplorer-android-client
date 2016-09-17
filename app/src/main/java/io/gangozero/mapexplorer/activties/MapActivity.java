@@ -3,8 +3,7 @@ package io.gangozero.mapexplorer.activties;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import io.gangozero.mapexplorer.R;
-import io.gangozero.mapexplorer.fragments.BaseMapFragment;
-import io.gangozero.mapexplorer.fragments.MapFragment;
+import io.gangozero.mapexplorer.fragments.ExplorerMapFragment;
 
 public class MapActivity extends AppCompatActivity {
 
@@ -16,7 +15,7 @@ public class MapActivity extends AppCompatActivity {
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
 					.beginTransaction()
-					.add(R.id.root_container, MapFragment.create())
+					.add(R.id.root_container, ExplorerMapFragment.create())
 					.commit();
 		}
 	}

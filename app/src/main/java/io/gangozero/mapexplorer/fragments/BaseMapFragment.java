@@ -6,12 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.mapbox.mapboxsdk.MapboxAccountManager;
-import com.mapbox.mapboxsdk.constants.Style;
-import com.mapbox.mapboxsdk.maps.MapView;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
 import io.gangozero.mapexplorer.R;
+
+//import com.mapbox.mapboxsdk.maps.MapView;
+//import com.mapbox.mapboxsdk.maps.MapboxMap;
 
 /**
  * Created by eleven on 16/09/2016.
@@ -19,7 +21,7 @@ import io.gangozero.mapexplorer.R;
 public abstract class BaseMapFragment extends Fragment {
 
 	protected MapView mapView;
-	protected MapboxMap map;
+	protected GoogleMap map;
 
 	@Override public void onResume() {
 		super.onResume();
@@ -48,7 +50,7 @@ public abstract class BaseMapFragment extends Fragment {
 
 	@Override public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		MapboxAccountManager.start(getContext(), getString(R.string.MAP_BOX_KEY));
+		//MapboxAccountManager.start(getContext(), getString(R.string.MAP_BOX_KEY));
 	}
 
 	@Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,9 +64,8 @@ public abstract class BaseMapFragment extends Fragment {
 		return result;
 	}
 
-	private void onMapCreated(MapboxMap googleMap) {
+	private void onMapCreated(GoogleMap googleMap) {
 		this.map = googleMap;
-
 		onMapCreated();
 	}
 
