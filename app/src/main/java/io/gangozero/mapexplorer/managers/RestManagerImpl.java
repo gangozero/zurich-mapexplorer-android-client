@@ -64,5 +64,12 @@ public class RestManagerImpl implements RestManager {
 				@Query("token") String token,
 				@Query("id") String id
 		);
+
+		@GET("prod/leaderboard")
+		Observable<List<UserModel>> getLeaderBoard(
+				@Query("user_id") String userId,
+				@Query("token") String token,
+				@Query("id") String id
+		);
 	}
 }
