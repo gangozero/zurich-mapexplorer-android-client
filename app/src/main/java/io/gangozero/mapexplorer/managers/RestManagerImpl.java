@@ -1,9 +1,6 @@
 package io.gangozero.mapexplorer.managers;
 
-import io.gangozero.mapexplorer.models.PoiResponse;
-import io.gangozero.mapexplorer.models.PostLocationBody;
-import io.gangozero.mapexplorer.models.PutPointResponse;
-import io.gangozero.mapexplorer.models.RestLocation;
+import io.gangozero.mapexplorer.models.*;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -54,7 +51,12 @@ public class RestManagerImpl implements RestManager {
 		@POST("prod/map")
 		Observable<PutPointResponse> postLocation(@Body PostLocationBody body);
 
-		@GET
-		Observable<PoiResponse> getPoi(@Query("lat") double lat, @Query("lon") double lon);
+		@GET("prod/poi")
+		Observable<List<Poi>> getPoi(
+				@Query("token") String token,
+				@Query("id") String id,
+				@Query("lat") double lat,
+				@Query("lon") double lon
+		);
 	}
 }

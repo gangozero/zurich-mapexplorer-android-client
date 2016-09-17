@@ -1,5 +1,6 @@
 package io.gangozero.mapexplorer.managers;
 
+import android.util.Log;
 import com.google.android.gms.maps.model.LatLng;
 import rx.Observable;
 import rx.subjects.PublishSubject;
@@ -19,6 +20,7 @@ public class MockLocationManagerImpl implements LocationManager {
 
 	private LatLng currentLocation = locations[0];
 
+
 	@Override public LatLng getCurrentLocationAsync() {
 		return currentLocation;
 	}
@@ -32,20 +34,33 @@ public class MockLocationManagerImpl implements LocationManager {
 
 	@Override public void startMockLocation0() {
 		currentLocation = locations[0];
-		locationSubject.onNext(locations[0]);
+		updateLocationObservable();
+	}
+
+	private void updateLocationObservable() {
+		Log.i("pres", "updateLocationObservable");
+		locationSubject.onNext(currentLocation);
 	}
 
 	@Override public void startMockLocation1() {
 		currentLocation = locations[1];
-		locationSubject.onNext(locations[1]);
+		updateLocationObservable();
 	}
 
 	@Override public void startMockLocation2() {
 		currentLocation = locations[2];
-		locationSubject.onNext(currentLocation);
+		updateLocationObservable();
+	}
+
+	@Override public void enableLoc() {
+		updateLocationObservable();
+	}
+
+	@Override public void disableManager() {
+
 	}
 
 	@Override public Observable<LatLng> getCurrentLocationObservable() {
-		return locationSubject;
+		return locationSubject.asObservable();
 	}
 }

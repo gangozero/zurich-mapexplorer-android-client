@@ -5,5 +5,7 @@ package io.gangozero.mapexplorer.models;
  */
 public class Poi {
 	public String name;
-	public String type;
+	public String info;
+	public double lat;
+	public double lon;
 }

@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.*;
 import io.gangozero.mapexplorer.R;
 import io.gangozero.mapexplorer.di.DIHelper;
 import io.gangozero.mapexplorer.models.OpenedZone;
+import io.gangozero.mapexplorer.models.Poi;
 import io.gangozero.mapexplorer.presenters.ExplorerMapPresenter;
 import io.gangozero.mapexplorer.views.ExplorerMapView;
 
@@ -56,6 +57,11 @@ public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 		textStatus.setText(R.string.loading);
 		btnRetry.setVisibility(View.GONE);
 		return result;
+	}
+
+	@Override public void onDestroyView() {
+		presenter.onViewDestroyed();
+		super.onDestroyView();
 	}
 
 	@Override public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,13 +121,23 @@ public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 		btnRetry.setVisibility(View.VISIBLE);
 	}
 
+	@Override public void updatePoi(List<Poi> pois) {
+
+		for (Poi poi : pois) {
+			MarkerOptions markerOptions = new MarkerOptions();
+			markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_account_balance_white_48dp));
+			markerOptions.position(new LatLng(poi.lat, poi.lon));
+			map.addMarker(markerOptions);
+		}
+	}
+
 	@Override public void showLoading() {
 		textStatus.setText(R.string.loading);
 		btnRetry.setVisibility(View.GONE);
 	}
 
 	@OnClick(R.id.btn_retry) public void handleRetry() {
-		presenter.loadData();
+		presenter.loadZones();
 	}
 
 	private void addDarkZone() {
@@ -154,9 +170,9 @@ public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 		currentPolygon = map.addPolygon(polygonOptions);
 	}
 
-	private void initCamera(){
+	private void initCamera() {
 		CameraPosition.Builder builder = new CameraPosition.Builder();
-		builder.target(new LatLng(47.37347170348754,8.543283641338347));
+		builder.target(new LatLng(47.37347170348754, 8.543283641338347));
 		builder.zoom(17.031239f);
 		map.moveCamera(CameraUpdateFactory.newCameraPosition(builder.build()));
 	}
