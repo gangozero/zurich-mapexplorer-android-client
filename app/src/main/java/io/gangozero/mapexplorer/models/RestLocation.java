@@ -14,4 +14,8 @@ public class RestLocation {
 	public static LatLng toLatLng(RestLocation restLocation) {
 		return new LatLng(restLocation.lat, restLocation.lon);
 	}
+
+	public LatLng toLatLng() {
+		return new LatLng(lat, lon);
+	}
 }

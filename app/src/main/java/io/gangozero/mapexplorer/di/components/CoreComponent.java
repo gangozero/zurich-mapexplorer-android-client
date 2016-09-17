@@ -2,6 +2,7 @@ package io.gangozero.mapexplorer.di.components;
 
 import dagger.Component;
 import io.gangozero.mapexplorer.activties.MainActivity;
+import io.gangozero.mapexplorer.broadcasts.CoreBroadcastReceiver;
 import io.gangozero.mapexplorer.di.modules.AppModule;
 import io.gangozero.mapexplorer.presenters.ExplorerMapPresenter;
 
@@ -16,4 +17,6 @@ public interface CoreComponent {
 	void inject(ExplorerMapPresenter presenter);
 
 	void inject(MainActivity mainActivity);
+
+	void inject(CoreBroadcastReceiver coreBroadcastReceiver);
 }

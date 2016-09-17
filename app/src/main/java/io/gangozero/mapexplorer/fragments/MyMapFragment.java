@@ -3,6 +3,7 @@ package io.gangozero.mapexplorer.fragments;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +35,12 @@ public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 
 	private ExplorerMapPresenter presenter;
 	private Polygon currentPolygon;
+	private Marker currentLocationMarker;
+	private boolean zoomed;
+
 	@BindView(R.id.text_status) TextView textStatus;
 	@BindView(R.id.btn_retry) Button btnRetry;
+
 
 	public static MyMapFragment create() {
 		return new MyMapFragment();
@@ -61,10 +66,11 @@ public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 
 	@Override protected void onMapCreated() {
 		addDarkZone();
+		initCamera();
 		presenter.onViewCreated(this);
 	}
 
-	@Override public void showZones(List<OpenedZone> openedZones) {
+	@Override public void updateZones(List<OpenedZone> openedZones) {
 		List<CircleOptions> touchPoints = new ArrayList<>();
 		PolygonOptions polygonOptions = new PolygonOptions();
 
@@ -91,11 +97,17 @@ public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 		textStatus.setVisibility(View.GONE);
 	}
 
-	@Override public void showCurrentLocation(LatLng location) {
-		CameraPosition.Builder builder = new CameraPosition.Builder();
-		builder.target(location);
-		builder.zoom(18);
-		map.animateCamera(CameraUpdateFactory.newCameraPosition(builder.build()));
+	@Override public void updateCurrentLocation(LatLng location) {
+
+		if (currentLocationMarker != null) currentLocationMarker.remove();
+
+		MarkerOptions markerOptions = new MarkerOptions();
+		markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_directions_run_black_48dp));
+		markerOptions.position(location);
+		currentLocationMarker = map.addMarker(markerOptions);
+
+		Log.i("camera", map.getCameraPosition().zoom + "");
+		Log.i("camera", map.getCameraPosition().target + "");
 	}
 
 	@Override public void showErrorLoading(Throwable t) {
@@ -140,5 +152,12 @@ public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 	private void addDarkZonePolygon(PolygonOptions polygonOptions) {
 		if (currentPolygon != null) currentPolygon.remove();
 		currentPolygon = map.addPolygon(polygonOptions);
+	}
+
+	private void initCamera(){
+		CameraPosition.Builder builder = new CameraPosition.Builder();
+		builder.target(new LatLng(47.37347170348754,8.543283641338347));
+		builder.zoom(17.031239f);
+		map.moveCamera(CameraUpdateFactory.newCameraPosition(builder.build()));
 	}
 }

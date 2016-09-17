@@ -5,4 +5,6 @@ package io.gangozero.mapexplorer.managers;
  */
 public interface NotificationManager {
 	void showMockMovementStart();
+
+	void handleXp(float xp);
 }

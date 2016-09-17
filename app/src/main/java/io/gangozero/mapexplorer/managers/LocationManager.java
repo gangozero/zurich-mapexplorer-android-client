@@ -9,7 +9,15 @@ import java.util.List;
  * Created by eleven on 17/09/2016.
  */
 public interface LocationManager {
+	LatLng getCurrentLocationAsync();
+
 	Observable<LatLng> getCurrentLocation();
 
-	Observable<List<LatLng>> getTouchPoints();
+	void startMockLocation0();
+
+	void startMockLocation1();
+
+	void startMockLocation2();
+
+	Observable<LatLng> getCurrentLocationObservable();
 }

@@ -1,6 +1,5 @@
 package io.gangozero.mapexplorer.activties;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -32,10 +31,8 @@ public class MainActivity extends AppCompatActivity {
 			findViewById(R.id.btn_friends_map).setOnClickListener(v -> viewPager.setCurrentItem(0));
 			findViewById(R.id.btn_my_map).setOnClickListener(v -> viewPager.setCurrentItem(1));
 			findViewById(R.id.btn_leader_board).setOnClickListener(v -> viewPager.setCurrentItem(2));
-		}
-	}
 
-	@Override protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
+			viewPager.setCurrentItem(1);
+		}
 	}
 }

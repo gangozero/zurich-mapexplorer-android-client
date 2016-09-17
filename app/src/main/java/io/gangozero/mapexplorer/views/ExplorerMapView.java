@@ -9,11 +9,12 @@ import java.util.List;
  * Created by eleven on 17/09/2016.
  */
 public interface ExplorerMapView {
-	void showZones(List<OpenedZone> openedZones);
 
-	void showCurrentLocation(LatLng location);
-
-	void showErrorLoading(Throwable t);
+	void updateZones(List<OpenedZone> openedZones);
 
 	void showLoading();
+
+	void updateCurrentLocation(LatLng location);
+
+	void showErrorLoading(Throwable t);
 }
