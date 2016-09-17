@@ -9,6 +9,7 @@ public class RestLocation {
 
 	public double lat;
 	public double lon;
+	public int heat;
 
 	public static LatLng toLatLng(RestLocation restLocation) {
 		return new LatLng(restLocation.lat, restLocation.lon);

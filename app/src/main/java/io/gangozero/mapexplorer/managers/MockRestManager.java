@@ -1,10 +1,7 @@
 package io.gangozero.mapexplorer.managers;
 
-import io.gangozero.mapexplorer.models.Poi;
-import io.gangozero.mapexplorer.models.PoiResponse;
-import io.gangozero.mapexplorer.models.PutPointResponse;
-import io.gangozero.mapexplorer.models.RestLocation;
-import retrofit2.http.Header;
+import io.gangozero.mapexplorer.models.*;
+import retrofit2.http.Body;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -17,7 +14,9 @@ import java.util.List;
 public class MockRestManager implements RestManager {
 	@Override public RestManagerImpl.Api api() {
 		return new RestManagerImpl.Api() {
-			@Override public Observable<List<RestLocation>> getAllMap(@Header("token") String token, @Header("consumerKey") String consumerKey) {
+			@Override public Observable<List<RestLocation>> getAllMap(@Query("user_id") String userId,
+			                                                          @Query("token") String token,
+			                                                          @Query("id") String id) {
 				List<RestLocation> result = new ArrayList<>();
 				RestLocation loc = new RestLocation();
 				loc.lat = 47.36766423537108;
@@ -26,7 +25,7 @@ public class MockRestManager implements RestManager {
 				return Observable.just(result);
 			}
 
-			@Override public Observable<PutPointResponse> putPoint(@Query("lat") double lat, @Query("lon") double lon) {
+			@Override public Observable<PutPointResponse> postLocation(@Body PostLocationBody body) {
 				PutPointResponse response = new PutPointResponse();
 				response.xp = 10;
 				return Observable.just(response);

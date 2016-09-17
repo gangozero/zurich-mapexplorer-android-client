@@ -12,4 +12,8 @@ public interface ExplorerMapView {
 	void showZones(List<OpenedZone> openedZones);
 
 	void showCurrentLocation(LatLng location);
+
+	void showErrorLoading(Throwable t);
+
+	void showLoading();
 }

@@ -2,6 +2,7 @@ package io.gangozero.mapexplorer.managers;
 
 import com.google.android.gms.maps.model.LatLng;
 import rx.Observable;
+import rx.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,12 @@ import java.util.List;
  */
 public class MockLocationManagerImpl implements LocationManager {
 	@Override public Observable<LatLng> getCurrentLocation() {
-		return Observable.create(subscriber -> subscriber.onNext(new LatLng(47.36766423537108, 8.526935577392578)));
+		return Observable.create(new Observable.OnSubscribe<LatLng>() {
+			@Override public void call(Subscriber<? super LatLng> subscriber) {
+				subscriber.onNext(new LatLng(47.36766423537108 + 0.001d, 8.526935577392578));
+				subscriber.onCompleted();
+			}
+		});
 	}
 
 	@Override public Observable<List<LatLng>> getTouchPoints() {
@@ -24,6 +30,7 @@ public class MockLocationManagerImpl implements LocationManager {
 			result.add(new LatLng(initLat + 0.002d, initLon + 0.00157d));
 
 			subscriber.onNext(result);
+			subscriber.onCompleted();
 		});
 	}
 }

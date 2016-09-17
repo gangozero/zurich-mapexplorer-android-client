@@ -22,6 +22,17 @@ public class OpenedZone {
 		setBoundaries();
 	}
 
+	public OpenedZone(LatLng leftBottom,
+	                  LatLng leftTop,
+	                  LatLng rightTop,
+	                  LatLng rightBottom) {
+		this.leftBottom = leftBottom;
+		this.leftTop = leftTop;
+		this.rightTop = rightTop;
+		this.rightBottom = rightBottom;
+		this.touchPoint = new LatLng(0, 0);
+	}
+
 	public void addTo(PolygonOptions polygonOptions) {
 		List<LatLng> bounds = new ArrayList<>();
 

@@ -1,17 +1,27 @@
 package io.gangozero.mapexplorer.activties;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import io.gangozero.mapexplorer.R;
 import io.gangozero.mapexplorer.adapters.MainAdapter;
+import io.gangozero.mapexplorer.di.DIHelper;
+import io.gangozero.mapexplorer.managers.NotificationManager;
+
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
+
+	public @Inject NotificationManager notificationManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
+
+		DIHelper.coreComponent().inject(this);
+		notificationManager.showMockMovementStart();
 
 		if (savedInstanceState == null) {
 
@@ -23,5 +33,9 @@ public class MainActivity extends AppCompatActivity {
 			findViewById(R.id.btn_my_map).setOnClickListener(v -> viewPager.setCurrentItem(1));
 			findViewById(R.id.btn_leader_board).setOnClickListener(v -> viewPager.setCurrentItem(2));
 		}
+	}
+
+	@Override protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
 	}
 }

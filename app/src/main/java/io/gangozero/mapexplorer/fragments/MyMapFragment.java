@@ -6,9 +6,11 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.*;
 import io.gangozero.mapexplorer.R;
@@ -31,8 +33,9 @@ import java.util.List;
 public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 
 	private ExplorerMapPresenter presenter;
-	@BindView(R.id.text_status) TextView textStatus;
 	private Polygon currentPolygon;
+	@BindView(R.id.text_status) TextView textStatus;
+	@BindView(R.id.btn_retry) Button btnRetry;
 
 	public static MyMapFragment create() {
 		return new MyMapFragment();
@@ -46,6 +49,7 @@ public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 		View result = super.onCreateView(inflater, container, savedInstanceState);
 		ButterKnife.bind(this, result);
 		textStatus.setText(R.string.loading);
+		btnRetry.setVisibility(View.GONE);
 		return result;
 	}
 
@@ -94,15 +98,41 @@ public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 		map.animateCamera(CameraUpdateFactory.newCameraPosition(builder.build()));
 	}
 
+	@Override public void showErrorLoading(Throwable t) {
+		textStatus.setText(t.getMessage());
+		btnRetry.setVisibility(View.VISIBLE);
+	}
+
+	@Override public void showLoading() {
+		textStatus.setText(R.string.loading);
+		btnRetry.setVisibility(View.GONE);
+	}
+
+	@OnClick(R.id.btn_retry) public void handleRetry() {
+		presenter.loadData();
+	}
+
 	private void addDarkZone() {
 		PolygonOptions polygonOptions = new PolygonOptions();
 
 		polygonOptions.fillColor(Color.BLACK);
-		polygonOptions.add(new LatLng(43.29320031385282, 0.4833984375));
-		polygonOptions.add(new LatLng(56.51101750495214, -1.7578125));
-		polygonOptions.add(new LatLng(57.657157596582984, 25.0048828125));
-		polygonOptions.add(new LatLng(42.09822241118974, 27.8173828125));
-		polygonOptions.add(new LatLng(43.29320031385282, 0.4833984375));
+
+//		polygonOptions.add(new LatLng(-80, -170));//0, 0
+//		polygonOptions.add(new LatLng(80, -170));//00, 0
+//		polygonOptions.add(new LatLng(80, 170));//00, 180
+//		polygonOptions.add(new LatLng(-80, 170));// 0, 180
+//		polygonOptions.add(new LatLng(-80, -170));// 0, 0
+
+		polygonOptions.add(new LatLng(0, 0));//0, 0
+		polygonOptions.add(new LatLng(89, 0));//90, 0
+		polygonOptions.add(new LatLng(89, 89));//90, 180
+		polygonOptions.add(new LatLng(0, 89));// 0, 180
+		polygonOptions.add(new LatLng(0, 0));// 0, 0
+//		polygonOptions.add(new LatLng(43.29320031385282, 0.4833984375));//0, 0
+//		polygonOptions.add(new LatLng(56.51101750495214, -1.7578125));//90, 0
+//		polygonOptions.add(new LatLng(57.657157596582984, 25.0048828125));//90, 180
+//		polygonOptions.add(new LatLng(42.09822241118974, 27.8173828125));// 0, 180
+//		polygonOptions.add(new LatLng(43.29320031385282, 0.4833984375));// 0, 0
 
 		addDarkZonePolygon(polygonOptions);
 	}

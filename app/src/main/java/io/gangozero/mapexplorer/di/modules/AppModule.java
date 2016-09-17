@@ -24,11 +24,15 @@ public class AppModule {
 	}
 
 	@Provides @Singleton public RestManager provideRestManager() {
-		return new MockRestManager();
-//		return new RestManagerImpl();
+//		return new MockRestManager();
+		return new RestManagerImpl();
 	}
 
 	@Provides @Singleton public KeyValueManager provideKeyValueManager() {
 		return new KeyValueManagerImpl(app);
+	}
+
+	@Provides @Singleton public NotificationManager provideNotificationManager() {
+		return new NotificationManagerImpl(app);
 	}
 }

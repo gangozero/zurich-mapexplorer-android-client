@@ -1,6 +1,7 @@
 package io.gangozero.mapexplorer.managers;
 
 import io.gangozero.mapexplorer.models.PoiResponse;
+import io.gangozero.mapexplorer.models.PostLocationBody;
 import io.gangozero.mapexplorer.models.PutPointResponse;
 import io.gangozero.mapexplorer.models.RestLocation;
 import okhttp3.OkHttpClient;
@@ -8,8 +9,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -30,7 +31,7 @@ public class RestManagerImpl implements RestManager {
 		OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
 		api = new Retrofit.Builder()
-				.baseUrl("")
+				.baseUrl("https://dbvmcgu4i2.execute-api.eu-west-1.amazonaws.com/")
 				.client(client)
 				.addConverterFactory(GsonConverterFactory.create())
 				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -43,11 +44,15 @@ public class RestManagerImpl implements RestManager {
 
 	public interface Api {
 
-		@GET
-		Observable<List<RestLocation>> getAllMap(@Header("token") String token, @Header("consumerKey") String consumerKey);
+		@GET("prod/map")
+		Observable<List<RestLocation>> getAllMap(
+				@Query("user_id") String userId,
+				@Query("token") String token,
+				@Query("id") String id
+		);
 
-		@POST
-		Observable<PutPointResponse> putPoint(@Query("lat") double lat, @Query("lon") double lon);
+		@POST("prod/map")
+		Observable<PutPointResponse> postLocation(@Body PostLocationBody body);
 
 		@GET
 		Observable<PoiResponse> getPoi(@Query("lat") double lat, @Query("lon") double lon);

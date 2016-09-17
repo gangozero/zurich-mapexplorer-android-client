@@ -30,6 +30,7 @@
 		</activity>
 
 		<service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService"/>
+		<receiver android:name=".broadcasts.CoreBroadcastReceiver"/>
 
 	</application>
 
