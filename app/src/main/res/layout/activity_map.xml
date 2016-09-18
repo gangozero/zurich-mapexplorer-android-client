@@ -39,12 +39,12 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"/>
 
-		<Button
-				android:id="@+id/btn_profile"
-				android:text="@string/profile"
-				android:layout_weight="1"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"/>
+		<!--<Button-->
+				<!--android:id="@+id/btn_profile"-->
+				<!--android:text="@string/profile"-->
+				<!--android:layout_weight="1"-->
+				<!--android:layout_width="0dp"-->
+				<!--android:layout_height="wrap_content"/>-->
 
 	</LinearLayout>
 
