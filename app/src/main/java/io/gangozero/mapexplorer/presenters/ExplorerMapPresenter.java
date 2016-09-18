@@ -48,8 +48,8 @@ public class ExplorerMapPresenter {
 
 		sub.add(locManager
 				.getCurrentLocationObservable()
-				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
+//				.subscribeOn(Schedulers.io())
+//				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(this::handleNewLocation, new Action1<Throwable>() {
 					@Override public void call(Throwable throwable) {
 						throwable.printStackTrace();

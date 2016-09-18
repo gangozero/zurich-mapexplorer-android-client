@@ -3,6 +3,7 @@ package io.gangozero.mapexplorer.di.modules;
 import dagger.Module;
 import dagger.Provides;
 import io.gangozero.mapexplorer.App;
+import io.gangozero.mapexplorer.BuildConfig;
 import io.gangozero.mapexplorer.managers.*;
 
 import javax.inject.Singleton;
@@ -20,12 +21,14 @@ public class AppModule {
 	}
 
 	@Provides @Singleton public LocManager provideLocationManager(KeyValueManager keyValueManager) {
-//		return new MockLocManagerImpl(keyValueManager);
-		return new LocationManagerImpl(app);
+		if (BuildConfig.MOCK_LOCATION) {
+			return new MockLocManagerImpl(keyValueManager);
+		} else {
+			return new LocationManagerImpl(app);
+		}
 	}
 
 	@Provides @Singleton public RestManager provideRestManager() {
-//		return new MockRestManager();
 		return new RestManagerImpl();
 	}
 

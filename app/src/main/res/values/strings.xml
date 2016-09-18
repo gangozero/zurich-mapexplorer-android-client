@@ -5,4 +5,6 @@
 	<string name="friends_map">Friends map</string>
 	<string name="my_map">My map</string>
 	<string name="retry">Retry</string>
+	<string name="btn_fitbit_auth">Auth Fitibit</string>
+	<string name="profile">Profile</string>
 </resources>

@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 			findViewById(R.id.btn_friends_map).setOnClickListener(v -> viewPager.setCurrentItem(0));
 			findViewById(R.id.btn_my_map).setOnClickListener(v -> viewPager.setCurrentItem(1));
 			findViewById(R.id.btn_leader_board).setOnClickListener(v -> viewPager.setCurrentItem(2));
+			findViewById(R.id.btn_profile).setOnClickListener(v -> viewPager.setCurrentItem(3));
 
 			viewPager.setCurrentItem(1);
 		}

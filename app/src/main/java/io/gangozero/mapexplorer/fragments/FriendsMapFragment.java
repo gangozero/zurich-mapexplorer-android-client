@@ -50,7 +50,7 @@ public class FriendsMapFragment extends BaseMapFragment implements FriendsMapVie
 		btnRetry.setText(throwable.getMessage());
 	}
 
-	private int l = 0;
+	private boolean l;
 
 	@Override public void showMaps(List<RestLocation> locations) {
 
@@ -69,7 +69,7 @@ public class FriendsMapFragment extends BaseMapFragment implements FriendsMapVie
 
 		List<OpenedZone> zones = Utils.restLocationsToZones(locations);
 		int color;
-		if (l == 0) color = Color.RED;
+		if (l) color = Color.RED;
 		else color = Color.BLUE;
 
 		for (OpenedZone zone : zones) {
@@ -84,7 +84,7 @@ public class FriendsMapFragment extends BaseMapFragment implements FriendsMapVie
 			map.addPolygon(polygonOptions);
 		}
 
-		l++;
+		l = !l;
 
 //		PolygonOptions polygonOptions = new PolygonOptions();
 //		for (OpenedZone zone : zones) {

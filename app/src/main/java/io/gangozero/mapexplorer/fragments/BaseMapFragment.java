@@ -48,7 +48,7 @@ public abstract class BaseMapFragment extends Fragment {
 
 	@Override public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		mapView.onSaveInstanceState(outState);
+		if (mapView != null) mapView.onSaveInstanceState(outState);
 	}
 
 	@Override public void onPause() {

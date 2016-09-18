@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import io.gangozero.mapexplorer.fragments.FriendsMapFragment;
 import io.gangozero.mapexplorer.fragments.LeaderBoardFragment;
 import io.gangozero.mapexplorer.fragments.MyMapFragment;
+import io.gangozero.mapexplorer.fragments.ProfileFragment;
 
 /**
  * Created by eleven on 17/09/2016.
@@ -21,11 +22,13 @@ public class MainAdapter extends FragmentPagerAdapter {
 			return FriendsMapFragment.create();
 		else if (position == 1)
 			return MyMapFragment.create();
-		else
+		else if (position == 2)
 			return LeaderBoardFragment.create();
+		else
+			return ProfileFragment.create();
 	}
 
 	@Override public int getCount() {
-		return 3;
+		return 4;
 	}
 }
