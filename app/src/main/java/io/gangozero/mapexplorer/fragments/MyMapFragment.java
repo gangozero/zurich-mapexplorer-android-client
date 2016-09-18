@@ -1,24 +1,22 @@
 package io.gangozero.mapexplorer.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import butterknife.OnClick;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.*;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import io.gangozero.mapexplorer.R;
 import io.gangozero.mapexplorer.di.DIHelper;
-import io.gangozero.mapexplorer.managers.LocationManager;
-import io.gangozero.mapexplorer.models.OpenedZone;
+import io.gangozero.mapexplorer.managers.LocManager;
 import io.gangozero.mapexplorer.models.Poi;
 import io.gangozero.mapexplorer.presenters.ExplorerMapPresenter;
 import io.gangozero.mapexplorer.views.ExplorerMapView;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 //import com.mapbox.mapboxsdk.annotations.PolygonOptions;
@@ -36,7 +34,7 @@ public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 	private Marker currentLocationMarker;
 	private boolean zoomed;
 
-	@Inject LocationManager locationManager;
+	@Inject LocManager locManager;
 
 	public static MyMapFragment create() {
 		return new MyMapFragment();
@@ -60,9 +58,9 @@ public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 
 	@Override protected void onMapCreated() {
 		addDarkZone();
-		initCamera(locationManager);
+		initCamera(locManager, null);
 		presenter.onViewCreated(this);
-		map.setOnMapClickListener(latLng -> locationManager.postExternalLocation(latLng));
+		map.setOnMapClickListener(latLng -> locManager.postExternalLocation(latLng));
 	}
 
 	@Override public void updateCurrentLocation(LatLng location) {
@@ -76,9 +74,12 @@ public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 
 		Log.i("camera", map.getCameraPosition().zoom + "");
 		Log.i("camera", map.getCameraPosition().target + "");
+
+		initCamera(locManager, location);//////
 	}
 
 	@Override public void showErrorLoading(Throwable t) {
+		t.printStackTrace();
 		textStatus.setText(t.getMessage());
 		btnRetry.setVisibility(View.VISIBLE);
 	}
@@ -99,6 +100,6 @@ public class MyMapFragment extends BaseMapFragment implements ExplorerMapView {
 	}
 
 	@OnClick(R.id.btn_retry) public void handleRetry() {
-		presenter.loadZones();
+		//presenter.loadZones(location);
 	}
 }

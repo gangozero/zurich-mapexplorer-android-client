@@ -1,8 +1,7 @@
 package io.gangozero.mapexplorer.presenters;
 
-import android.util.Log;
 import io.gangozero.mapexplorer.managers.KeyValueManager;
-import io.gangozero.mapexplorer.managers.LocationManager;
+import io.gangozero.mapexplorer.managers.LocManager;
 import io.gangozero.mapexplorer.managers.NotificationManager;
 import io.gangozero.mapexplorer.managers.RestManager;
 import io.gangozero.mapexplorer.models.RestLocation;
@@ -10,7 +9,6 @@ import io.gangozero.mapexplorer.models.UserModel;
 import io.gangozero.mapexplorer.views.FriendsMapView;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -22,7 +20,7 @@ import java.util.List;
  */
 public class FriendsMapPresenter {
 
-	@Inject public LocationManager locationManager;
+	@Inject public LocManager locManager;
 	@Inject public RestManager restManager;
 	@Inject public KeyValueManager keyValueManager;
 	@Inject public NotificationManager notificationManager;

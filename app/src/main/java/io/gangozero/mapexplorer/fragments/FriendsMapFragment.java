@@ -7,7 +7,7 @@ import android.view.View;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;
 import io.gangozero.mapexplorer.di.DIHelper;
-import io.gangozero.mapexplorer.managers.LocationManager;
+import io.gangozero.mapexplorer.managers.LocManager;
 import io.gangozero.mapexplorer.models.OpenedZone;
 import io.gangozero.mapexplorer.models.RestLocation;
 import io.gangozero.mapexplorer.presenters.FriendsMapPresenter;
@@ -24,7 +24,7 @@ import java.util.List;
 public class FriendsMapFragment extends BaseMapFragment implements FriendsMapView {
 
 	private FriendsMapPresenter presenter;
-	@Inject LocationManager locationManager;
+	@Inject LocManager locManager;
 
 	private List<OpenedZone> zones = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class FriendsMapFragment extends BaseMapFragment implements FriendsMapVie
 	@Override protected void onMapCreated() {
 		presenter.onViewCreated(this);
 		addDarkZone();
-		initCamera(locationManager);
+		initCamera(locManager, null);
 	}
 
 	@Override public void onError(Throwable throwable) {

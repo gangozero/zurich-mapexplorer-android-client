@@ -14,7 +14,7 @@ public class KeyValueManagerImpl implements KeyValueManager {
 
 	public KeyValueManagerImpl(App app) {
 		sharedPreferences = app.getSharedPreferences("default-storage", Context.MODE_PRIVATE);
-		sharedPreferences.edit().putString(KeyValueManager.USER_ID, "user1").apply();
+		sharedPreferences.edit().putString(KeyValueManager.USER_ID, "user5").apply();
 		sharedPreferences.edit().putString(KeyValueManager.USER_TOKEN, "123").apply();
 	}
 

@@ -1,18 +1,17 @@
 package io.gangozero.mapexplorer.managers;
 
+import android.support.annotation.Nullable;
 import com.google.android.gms.maps.model.LatLng;
 import rx.Observable;
 
 /**
  * Created by eleven on 17/09/2016.
  */
-public interface LocationManager {
+public interface LocManager {
 
 	boolean isDefaultLoc();
 
-	LatLng getCurrentLocationAsync();
-
-	Observable<LatLng> getCurrentLocation();
+	@Nullable LatLng getCurrentLocationAsync();
 
 	/**
 	 * Hot observable
@@ -20,8 +19,6 @@ public interface LocationManager {
 	Observable<LatLng> getCurrentLocationObservable();
 
 	void enableLoc();
-
-	void disableManager();
 
 	void postExternalLocation(LatLng latLng);
 }

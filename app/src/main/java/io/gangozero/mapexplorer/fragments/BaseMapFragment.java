@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import io.gangozero.mapexplorer.R;
-import io.gangozero.mapexplorer.managers.LocationManager;
+import io.gangozero.mapexplorer.managers.LocManager;
 import io.gangozero.mapexplorer.models.OpenedZone;
 
 import java.util.List;
@@ -111,13 +111,12 @@ public abstract class BaseMapFragment extends Fragment {
 		currentPolygon = map.addPolygon(polygonOptions);
 	}
 
-	protected void initCamera(LocationManager locationManager) {
+	protected void initCamera(LocManager locManager, @Nullable LatLng loc) {
 
-		LatLng loc;
-		if (locationManager.isDefaultLoc()) {
+		if (locManager.isDefaultLoc()) {
 			loc = new LatLng(47.37347170348754, 8.543283641338347);
 		} else {
-			loc = locationManager.getCurrentLocationAsync();
+			if (loc == null) loc = locManager.getCurrentLocationAsync();
 		}
 
 		if (loc == null) return;

@@ -8,7 +8,7 @@ import rx.subjects.PublishSubject;
 /**
  * Created by eleven on 17/09/2016.
  */
-public class MockLocationManagerImpl implements LocationManager {
+public class MockLocManagerImpl implements LocManager {
 
 	private PublishSubject<LatLng> locationSubject = PublishSubject.create();
 
@@ -16,7 +16,7 @@ public class MockLocationManagerImpl implements LocationManager {
 	private LatLng currentLocation = DEFAULT_LOC;
 	private KeyValueManager keyValueManager;
 
-	public MockLocationManagerImpl(KeyValueManager keyValueManager) {
+	public MockLocManagerImpl(KeyValueManager keyValueManager) {
 		this.keyValueManager = keyValueManager;
 		String lastLoc = keyValueManager.getString(KeyValueManager.LAST_LOC);
 		stringToLoc(lastLoc);
@@ -30,12 +30,6 @@ public class MockLocationManagerImpl implements LocationManager {
 		return currentLocation;
 	}
 
-	@Override public Observable<LatLng> getCurrentLocation() {
-		return Observable.create(subscriber -> {
-			subscriber.onNext(currentLocation);
-			subscriber.onCompleted();
-		});
-	}
 
 	private void updateLocationObservable() {
 		Log.i("pres", "updateLocationObservable");
@@ -47,10 +41,6 @@ public class MockLocationManagerImpl implements LocationManager {
 
 	@Override public void enableLoc() {
 		updateLocationObservable();
-	}
-
-	@Override public void disableManager() {
-
 	}
 
 	@Override public void postExternalLocation(LatLng latLng) {

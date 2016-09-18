@@ -3,7 +3,7 @@ package io.gangozero.mapexplorer.presenters;
 import android.util.Log;
 import com.google.android.gms.maps.model.LatLng;
 import io.gangozero.mapexplorer.managers.KeyValueManager;
-import io.gangozero.mapexplorer.managers.LocationManager;
+import io.gangozero.mapexplorer.managers.LocManager;
 import io.gangozero.mapexplorer.managers.NotificationManager;
 import io.gangozero.mapexplorer.managers.RestManager;
 import io.gangozero.mapexplorer.models.OpenedZone;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class ExplorerMapPresenter {
 
-	@Inject public LocationManager locationManager;
+	@Inject public LocManager locManager;
 	@Inject public RestManager restManager;
 	@Inject public KeyValueManager keyValueManager;
 	@Inject public NotificationManager notificationManager;
@@ -46,13 +46,17 @@ public class ExplorerMapPresenter {
 		sub = new CompositeSubscription();
 		this.view = view;
 
-		sub.add(locationManager
+		sub.add(locManager
 				.getCurrentLocationObservable()
-//				.subscribeOn(Schedulers.io())
-//				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(this::handleNewLocation));
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(this::handleNewLocation, new Action1<Throwable>() {
+					@Override public void call(Throwable throwable) {
+						throwable.printStackTrace();
+					}
+				}));
 
-		locationManager.enableLoc();
+		locManager.enableLoc();
 	}
 
 	private void handleNewLocation(LatLng location) {
@@ -81,15 +85,15 @@ public class ExplorerMapPresenter {
 					view.updateCurrentLocation(location);
 				}, Throwable::printStackTrace));
 
-		loadZones();
-		loadPoi();
+		loadZones(location);
+		loadPoi(location);
 	}
 
-	private void loadPoi() {
+	private void loadPoi(LatLng currentLoc) {
 
 		String userId = keyValueManager.getString(KeyValueManager.USER_ID);
 		String userToken = keyValueManager.getString(KeyValueManager.USER_TOKEN);
-		LatLng currentLoc = locationManager.getCurrentLocationAsync();
+		//LatLng currentLoc = locManager.getCurrentLocationAsync();
 
 		sub.add(restManager
 				.api()
@@ -112,38 +116,20 @@ public class ExplorerMapPresenter {
 				}));
 	}
 
-	public void loadZones() {
+	public void loadZones(LatLng location) {
 
 		view.showLoading();
 
 		String userId = keyValueManager.getString(KeyValueManager.USER_ID);
 		String userToken = keyValueManager.getString(KeyValueManager.USER_TOKEN);
 
-//		sub.add(locationManager
-//				.getCurrentLocation()
-//				.flatMap(Observable::just)
-//				.flatMap(new Func1<LatLng, Observable<PutPointResponse>>() {
-//					@Override public Observable<PutPointResponse> call(LatLng location) {
-//
-//						return restManager.api().postLocation(
-//								new PostLocationBody(userId, userToken, location.latitude, location.longitude, System.currentTimeMillis())
-//						);
-//					}
-//				})
-//				.flatMap(new Func1<PutPointResponse, Observable<List<RestLocation>>>() {
-//					@Override public Observable<List<RestLocation>> call(PutPointResponse response) {
-//
-//						notificationManager.handleXp(response.xp_square + response.xp_poi);
-//
-//						return restManager.api().getMap(userId, userToken, userId);
-//					}
-//				})
+
 		sub.add(restManager.api().getMap(userId, userToken, userId)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(Schedulers.io())
 				.subscribe(
 						restLocations -> {
-							view.updateCurrentLocation(locationManager.getCurrentLocationAsync());
+							view.updateCurrentLocation(location);
 							openedZones = Utils.restLocationsToZones(restLocations);
 							view.updateZones(openedZones);
 						},

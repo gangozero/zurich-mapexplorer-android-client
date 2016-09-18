@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import io.gangozero.mapexplorer.di.DIHelper;
-import io.gangozero.mapexplorer.managers.LocationManager;
+import io.gangozero.mapexplorer.managers.LocManager;
 
 import javax.inject.Inject;
 
@@ -17,7 +17,7 @@ public class CoreBroadcastReceiver extends BroadcastReceiver {
 	public static final int ACTION_101 = 101;
 	public static final int ACTION_102 = 102;
 
-	@Inject LocationManager locationManager;
+	@Inject LocManager locManager;
 
 	@Override public void onReceive(Context context, Intent intent) {
 		int actionId = intent.getExtras().getInt("actionId");
@@ -25,11 +25,11 @@ public class CoreBroadcastReceiver extends BroadcastReceiver {
 		DIHelper.coreComponent().inject(this);
 
 //		if (actionId == ACTION_100) {
-//			locationManager.startMockLocation0();
+//			locManager.startMockLocation0();
 //		} else if (actionId == ACTION_101) {
-//			locationManager.startMockLocation1();
+//			locManager.startMockLocation1();
 //		} else if (actionId == ACTION_102) {
-//			locationManager.startMockLocation2();
+//			locManager.startMockLocation2();
 //		}
 	}
 }

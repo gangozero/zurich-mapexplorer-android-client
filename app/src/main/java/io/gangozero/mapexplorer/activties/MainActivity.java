@@ -1,6 +1,7 @@
 package io.gangozero.mapexplorer.activties;
 
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import io.gangozero.mapexplorer.R;
@@ -9,6 +10,9 @@ import io.gangozero.mapexplorer.di.DIHelper;
 import io.gangozero.mapexplorer.managers.NotificationManager;
 
 import javax.inject.Inject;
+
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
 
 		DIHelper.coreComponent().inject(this);
 		//notificationManager.showMockMovementStart();
+
+		ActivityCompat.requestPermissions(this, new String[]{
+				ACCESS_FINE_LOCATION,
+				ACCESS_COARSE_LOCATION
+		}, 1000);
 
 		if (savedInstanceState == null) {
 
