@@ -48,12 +48,12 @@ public abstract class BaseMapFragment extends Fragment {
 
 	@Override public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (mapView != null) mapView.onSaveInstanceState(outState);
+		//if (mapView != null) mapView.onSaveInstanceState(outState);
 	}
 
 	@Override public void onPause() {
-		super.onPause();
 		mapView.onPause();
+		super.onPause();
 	}
 
 	@Override public void onDestroyView() {
@@ -62,8 +62,8 @@ public abstract class BaseMapFragment extends Fragment {
 	}
 
 	@Override public void onLowMemory() {
-		super.onLowMemory();
 		mapView.onLowMemory();
+		super.onLowMemory();
 	}
 
 	@Override public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,6 +88,8 @@ public abstract class BaseMapFragment extends Fragment {
 
 	private void onMapCreated(GoogleMap googleMap) {
 		this.map = googleMap;
+		map.getUiSettings().setZoomControlsEnabled(false);
+		map.getUiSettings().setMapToolbarEnabled(false);
 		onMapCreated();
 	}
 
